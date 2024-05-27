@@ -20,7 +20,7 @@ public class EventSchedule {
     public List<Event> getEventsByDate(LocalDate date) {
         List<Event> events = new ArrayList<>();
 
-        events.forEach(e -> {
+        this.events.forEach(e -> {
             if (e.getDate().isEqual(date)) {
                 events.add(e);
                 System.out.println("ciaone");
