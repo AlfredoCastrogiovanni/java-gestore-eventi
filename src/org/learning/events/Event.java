@@ -4,12 +4,12 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class Event {
-    private String title;
-    private LocalDate date;
-    private int totalSeats;
-    private int reservedSeats = 0;
+    protected String title;
+    protected LocalDate date;
+    protected int totalSeats;
+    protected int reservedSeats = 0;
 
-    public static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    public static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
     public Event(String title, LocalDate date, int totalSeats) throws IllegalArgumentException {
         this.title = title;
@@ -48,7 +48,7 @@ public class Event {
 
     @Override
     public String toString() {
-        return date.format(FORMATTER) + "-" + title;
+        return date.format(DATE_FORMATTER) + "-" + title;
     }
 
     public void reserve(int seats) throws IllegalArgumentException {

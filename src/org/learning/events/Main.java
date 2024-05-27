@@ -1,6 +1,8 @@
 package org.learning.events;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 
@@ -10,18 +12,18 @@ public class Main {
 
         Event event = null;
 
-        System.out.println();
-        System.out.println("----------------------------");
-        System.out.println("|        EVENT MENU        |");
-        System.out.println("----------------------------");
-        System.out.println("1. Create event");
-        System.out.println("2. Exit");
-        System.out.println("----------------------------");
-        System.out.println();
-
-        String choice = scanner.nextLine();
-
         while (event == null) {
+            System.out.println();
+            System.out.println("----------------------------");
+            System.out.println("|        EVENT MENU        |");
+            System.out.println("----------------------------");
+            System.out.println("1. Create event");
+            System.out.println("2. Exit");
+            System.out.println("----------------------------");
+            System.out.println();
+
+            String choice = scanner.nextLine();
+
             switch (choice) {
                 case "1":
                     event = createEvent(scanner);
@@ -35,7 +37,6 @@ public class Main {
                     break;
             }
         }
-
         scanner.close();
     }
 
@@ -44,6 +45,16 @@ public class Main {
         boolean valid = false;
 
         while (event == null) {
+            System.out.println();
+            System.out.println("----------------------------");
+            System.out.println("|        EVENT MENU        |");
+            System.out.println("----------------------------");
+            System.out.println("1. Concert");
+            System.out.println("2. Generic Event");
+            System.out.println("----------------------------");
+            System.out.println();
+
+            String choice = scanner.nextLine();
 
             String title = null;
             LocalDate date = null;
@@ -54,13 +65,12 @@ public class Main {
                 title = scanner.nextLine();
                 valid = title != null && !title.isEmpty();
             }
-
             valid = false;
 
             while (valid == false) {
-                System.out.print("Enter a date: ");
+                System.out.print("Enter a date(dd:mm:yyyy): ");
                 try {
-                    date = LocalDate.parse(scanner.nextLine(), Event.FORMATTER);
+                    date = LocalDate.parse(scanner.nextLine(), Event.DATE_FORMATTER);
                     Event.checkDate(date);
                     valid = true;
                 } catch (DateTimeParseException e) {
@@ -69,7 +79,6 @@ public class Main {
                     System.out.println(e.getMessage());
                 }
             }
-
             valid = false;
 
             while (valid == false) {
@@ -84,11 +93,54 @@ public class Main {
                     System.out.println(e.getMessage());
                 }
             }
+            valid = false;
 
-            try {
-                event = new Event(title, date, totalSeats);
-            } catch (IllegalArgumentException e) {
-                System.out.println(e.getMessage());
+            switch (choice) {
+                case "1":
+                    LocalTime time = null;
+                    BigDecimal price = null;
+
+                    while (valid == false) {
+                        System.out.print("Enter concert time(hh:mm): ");
+                        try {
+                            time = LocalTime.parse(scanner.nextLine(), Concert.TIME_FORMATTER);
+                            valid = true;
+                        } catch (DateTimeParseException e) {
+                            System.out.println("Enter a valid time!");
+                        } catch (IllegalArgumentException e) {
+                            System.out.println(e.getMessage());
+                        }
+                    }
+                    valid = false;
+
+                    while (valid == false) {
+                        System.out.print("Enter concert price: ");
+                        try {
+                            price = BigDecimal.valueOf(Double.parseDouble(scanner.nextLine()));
+                            Concert.checkPrice(price);
+                            valid = true;
+                        } catch (NumberFormatException e) {
+                            System.out.println("Enter a valid number!");
+                        } catch (IllegalArgumentException e) {
+                            System.out.println(e.getMessage());
+                        }
+                    }
+
+                    try {
+                        event = new Concert(title, date, totalSeats, time, price);
+                    } catch (IllegalArgumentException e) {
+                        System.out.println(e.getMessage());
+                    }
+                    break;
+                case "2":
+                    try {
+                        event = new Event(title, date, totalSeats);
+                    } catch (IllegalArgumentException e) {
+                        System.out.println(e.getMessage());
+                    }
+                    break;
+                default:
+                    break;
             }
         }
         return event;
