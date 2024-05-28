@@ -23,7 +23,6 @@ public class EventSchedule {
         this.events.forEach(e -> {
             if (e.getDate().isEqual(date)) {
                 events.add(e);
-                System.out.println("ciaone");
             }
         });
         return events;
