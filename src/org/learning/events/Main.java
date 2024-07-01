@@ -68,7 +68,7 @@ public class Main {
             valid = false;
 
             while (valid == false) {
-                System.out.print("Enter a date(dd:mm:yyyy): ");
+                System.out.print("Enter a date(dd/mm/yyyy): ");
                 try {
                     date = LocalDate.parse(scanner.nextLine(), Event.DATE_FORMATTER);
                     Event.checkDate(date);
